@@ -1,0 +1,43 @@
+{
+  "name": "package-options",
+  "version": "0.0.1",
+  "description": "The single point to load options for your node package",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "humile",
+    "test:full": "npm test && npm run lint && tsc --noEmit",
+    "lint": "eslint src/**/*.js && tsc --noEmit",
+    "postversion": "git push && git push --tags",
+    "prepack": "npm run test:full"
+  },
+  "typings": "src/index.d.ts",
+  "repository": "megahertz/package-options",
+  "files": [
+    "src/*",
+    "!__specs__"
+  ],
+  "keywords": [
+    "npm",
+    "package",
+    "options",
+    "config",
+    "cli",
+    "environment",
+    "rc",
+    "help"
+  ],
+  "author": "Alexey Prokhorov",
+  "license": "MIT",
+  "bugs": "https://github.com/megahertz/package-options/issues",
+  "homepage": "https://github.com/megahertz/package-options#readme",
+  "engines": {
+    "node": ">=6"
+  },
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.0",
+    "humile": "^0.2.3",
+    "typescript": "^3.6.3"
+  }
+}

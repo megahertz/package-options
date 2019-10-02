@@ -1,0 +1,189 @@
+'use strict';
+
+/* eslint-disable no-underscore-dangle */
+
+const { parseCmdArgs }    = require('./utils/cmd');
+const { readProjectFile } = require('./utils/file');
+const { parseHelp }       = require('./utils/help');
+const {
+  deepCopy,
+  deepMerge,
+  filterByKeyPrefix,
+  filterByKeys,
+  getNode,
+  setNode,
+} = require('./utils/object');
+const { processParams, transform } = require('./utils/transform');
+
+class PackageOptions {
+  constructor(data = {}, selfOptions = {}) {
+    this.__data = { _: [], ...data };
+    this.__selfOptions = Object.assign({
+      help: undefined,
+      inferTypes: true,
+      initialized: false,
+      name: undefined,
+      params: {},
+      projectPath: process.cwd(),
+    }, selfOptions);
+
+    const proxy = new Proxy(this, {
+      get(target, property) {
+        if (property in target) {
+          return target[property];
+        }
+
+        target.init();
+
+        return target.__data[property];
+      },
+
+      set(target, property, value) {
+        target.__data[property] = value;
+        return true;
+      },
+    });
+
+    this.reset = this.reset.bind(this);
+    this.default = proxy;
+    this.PackageOptions = this.constructor;
+
+    return proxy;
+  }
+
+  clone() {
+    return new PackageOptions(
+      deepCopy(this.__data),
+      deepCopy(this.__selfOptions)
+    );
+  }
+
+  config(values) {
+    Object.assign(this.__selfOptions, values);
+    return this.__selfOptions;
+  }
+
+  get(option, defaultValue = undefined) {
+    return getNode(this.__data, option, defaultValue);
+  }
+
+  getProjectPath() {
+    return this.__selfOptions.projectPath;
+  }
+
+  help(helpText, options = {}) {
+    // eslint-disable-next-line prefer-const
+    let { params, text } = parseHelp(helpText, options);
+
+    this.__selfOptions.help = text;
+
+    params = transform(params, { keyToLowerCase: false });
+    Object.entries(params)
+      .forEach(([param, opts]) => this.param(param, opts));
+
+    this.init();
+
+    if (options.autoShow !== false && this.__data.help === true) {
+      console.info(text);
+      process.exit(0);
+    }
+
+    return this;
+  }
+
+  load(data) {
+    deepMerge(this.__data, processParams(data, this.__selfOptions.params));
+    return this;
+  }
+
+  loadCmd(args = process.argv.slice(2)) {
+    if (typeof args === 'string') {
+      args = args.trim().split(' ');
+    }
+
+    const cmdOptions = transform(parseCmdArgs(args), {
+      keyToLowerCase: false,
+      valuePrimitives: this.__selfOptions.inferTypes,
+    });
+
+    return this.load(cmdOptions);
+  }
+
+  loadDefaults(packagePrefix = this.__selfOptions.name) {
+    if (!packagePrefix) {
+      return this.loadCmd();
+    }
+
+    return this
+      .loadFile('package.json', packagePrefix)
+      .loadFile(`${packagePrefix}.config.json`)
+      .loadFile(`${packagePrefix}.config.js`)
+      .loadEnv(packagePrefix.replace(/-/g, '_'))
+      .loadCmd();
+  }
+
+  loadEnv(filter = null, envValues = process.env) {
+    if (filter) {
+      if (Array.isArray(filter)) {
+        envValues = filterByKeys(envValues, filter);
+      } else {
+        envValues = filterByKeyPrefix(envValues, filter);
+      }
+    }
+
+    const envOptions = transform(envValues, {
+      valuePrimitives: this.__selfOptions.inferTypes,
+    });
+
+    return this.load(envOptions);
+  }
+
+  loadFile(fileName, section = null) {
+    let json = readProjectFile(fileName, this.__selfOptions.projectPath);
+    delete json.__filename;
+
+    if (section) {
+      json = getNode(json, section);
+    }
+
+    return this.load(json);
+  }
+
+  param(name, options) {
+    this.__selfOptions.params[name] = {
+      ...this.__selfOptions.params[name],
+      ...options,
+    };
+
+    return this;
+  }
+
+  reset() {
+    this.__data = { _: [] };
+    this.__selfOptions.initialized = true;
+    return this;
+  }
+
+  set(option, value) {
+    setNode(this.__data, option, value);
+    return this;
+  }
+
+  toJSON() {
+    return this.__data;
+  }
+
+  /**
+   * @private
+   */
+  init() {
+    if (this.__selfOptions.initialized) {
+      return;
+    }
+
+    this.loadDefaults();
+    this.__selfOptions.initialized = true;
+  }
+}
+
+module.exports = PackageOptions;
