@@ -61,7 +61,7 @@ function deepMerge(target, ...sources) {
         }
 
         deepMerge(target[key], source[key]);
-      } else {
+      } else if (source[key] !== undefined) {
         Object.assign(target, { [key]: source[key] });
       }
     }

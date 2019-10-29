@@ -52,6 +52,14 @@ describe('utils/object', () => {
       expect(object.deepMerge(target, src))
         .toEqual({ a: [2] });
     });
+
+    it('should merge undefined values correctly', () => {
+      const target = { a: 1 };
+      const src = { a: undefined };
+
+      expect(object.deepMerge(target, src))
+        .toEqual({ a: 1 });
+    });
   });
 
   it('filterByKeyPrefix', () => {
