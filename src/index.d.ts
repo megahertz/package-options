@@ -26,6 +26,7 @@ declare namespace packageOptions {
     clone(): this;
     config(values?: Partial<Config>): Config;
     get(option: string, defaultValue?: any): any;
+    getHelpText(): string;
     getProjectPath(): string;
     help(helpText: string, options?: Partial<HelpOptions>): this;
     load(object: Partial<T>): this;

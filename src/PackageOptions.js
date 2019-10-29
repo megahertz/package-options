@@ -67,6 +67,10 @@ class PackageOptions {
     return getNode(this.__data, option, defaultValue);
   }
 
+  getHelpText() {
+    return this.__selfOptions.help;
+  }
+
   getProjectPath() {
     return this.__selfOptions.projectPath;
   }
