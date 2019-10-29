@@ -2,9 +2,9 @@
 
 /* eslint-disable no-underscore-dangle */
 
-const { parseCmdArgs }    = require('./utils/cmd');
-const { readProjectFile } = require('./utils/file');
-const { parseHelp }       = require('./utils/help');
+const { parseCmdArgs }                     = require('./utils/cmd');
+const { findProjectRoot, readProjectFile } = require('./utils/file');
+const { parseHelp }                        = require('./utils/help');
 const {
   deepCopy,
   deepMerge,
@@ -24,7 +24,7 @@ class PackageOptions {
       initialized: false,
       name: undefined,
       params: {},
-      projectPath: process.cwd(),
+      projectPath: findProjectRoot(),
     }, selfOptions);
 
     const proxy = new Proxy(this, {

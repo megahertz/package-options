@@ -4,8 +4,20 @@ const fs   = require('fs');
 const path = require('path');
 
 module.exports = {
+  findProjectRoot,
   readProjectFile,
 };
+
+/**
+ * @param {string} searchPath
+ * @return {string | undefined}
+ */
+function findProjectRoot(searchPath = process.cwd()) {
+  const filePath = findUp('package.json', searchPath);
+  if (filePath) {
+    return path.dirname(filePath);
+  }
+}
 
 function findUp(fileName, cwd = process.cwd()) {
   if (path.isAbsolute(fileName) && fs.existsSync(fileName)) {
