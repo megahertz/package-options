@@ -36,6 +36,22 @@ describe('utils/cmd', () => {
     });
   });
 
+  it('should parse concatenated boolean flags', () => {
+    expect(parseCmdArgs(['-ab'])).toEqual({
+      _: [],
+      a: true,
+      b: true,
+    });
+  });
+
+  it('should parse concatenated flags ', () => {
+    expect(parseCmdArgs(['-ab', 'test'])).toEqual({
+      _: [],
+      a: true,
+      b: 'test',
+    });
+  });
+
   it('should parse anonymous arguments', () => {
     expect(parseCmdArgs(['a=1', 'b'])).toEqual({
       _: ['a=1', 'b'],

@@ -11,31 +11,43 @@ module.exports = {
  */
 function parseCmdArgs(argv = process.argv.slice(2)) {
   let key;
-  return argv.reduce((res, arg) => {
-    if (arg.indexOf('-') === 0) {
+  return argv.reduce((flags, arg) => {
+    // -k, --key, --key=value
+    if (arg[0] === '-') {
       key = arg.replace(/^-+/, '');
 
+      // -kv
+      if (arg[1] && arg[1] !== '-' && arg[2] !== '=') {
+        const keys = key.split('');
+        keys.forEach(k => flags[k] = flags[k] || true);
+        key = keys[keys.length - 1];
+        return flags;
+      }
+
+      // --key=value
       if (key.indexOf('=') > 0) {
         const [k, v] = key.split('=', 2).map(s => s.trim());
         key = null;
-        return { ...res, [k]: v };
+        return { ...flags, [k]: v };
       }
 
-      return { ...res, [key]: res[key] || true };
+      return { ...flags, [key]: flags[key] || true };
     }
 
+    // if last arg was a key, add a value to it
     if (key) {
-      if (!res[key] || res[key] === true) {
-        res[key] = arg.trim();
+      if (!flags[key] || flags[key] === true) {
+        flags[key] = arg.trim();
       } else {
-        res[key] = [].concat(res[key]).concat(arg.trim());
+        flags[key] = [].concat(flags[key]).concat(arg.trim());
       }
 
       key = null;
+    // or just push anonymous arg
     } else {
-      res._.push(arg.trim());
+      flags._.push(arg.trim());
     }
 
-    return res;
+    return flags;
   }, { _: [] });
 }
