@@ -13,14 +13,26 @@ describe('utils/object', () => {
     expect(dest.a.b).toBe('modified');
   });
 
-  it('deepMap', () => {
-    const src = { a: { b: 'original' } };
-    const dest = object.deepMap(src, (key, val) => {
+  describe('deepMap', () => {
+    function toUpperCase(key, val) {
       return [key.toUpperCase(), val.toUpperCase ? val.toUpperCase() : val];
+    }
+
+    it('should transform valid object', () => {
+      const src = { a: { b: 'original' } };
+      const dest = object.deepMap(src, toUpperCase);
+
+      expect(src.a.b).toBe('original');
+      expect(dest.A.B).toBe('ORIGINAL');
     });
 
-    expect(src.a.b).toBe('original');
-    expect(dest.A.B).toBe('ORIGINAL');
+    it('should return an empty object on wrong input', () => {
+      const src = { a: { b: 'original' } };
+      const dest = object.deepMap(null, toUpperCase);
+
+      expect(src.a.b).toBe('original');
+      expect(dest).toEqual({});
+    });
   });
 
   describe('deepMerge', () => {
@@ -68,11 +80,20 @@ describe('utils/object', () => {
     });
   });
 
-  it('getNode', () => {
-    const src = { a: { b: 'original' } };
 
-    expect(object.getNode(src, 'a.b')).toBe('original');
-    expect(object.getNode(src, 'a.c', false)).toBe(false);
+  describe('getNode', () => {
+    it('should return a nested value', () => {
+      const src = { a: { b: 'original' } };
+
+      expect(object.getNode(src, 'a.b')).toBe('original');
+      expect(object.getNode(src, 'a.c', false)).toBe(false);
+    });
+
+    it('should return a default value if object is null', () => {
+      const src = { a: { b: 'original' } };
+
+      expect(object.getNode(null, 'a.b', false)).toBe(false);
+    });
   });
 
   it('setNode', () => {

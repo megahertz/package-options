@@ -108,8 +108,8 @@ function filterByKeys(object, keys) {
 }
 
 function getNode(object, path, defaultValue = undefined) {
-  if (!path || !path.split) {
-    return object;
+  if (!path || !path.split || !object) {
+    return defaultValue;
   }
 
   let node = object;
@@ -120,7 +120,7 @@ function getNode(object, path, defaultValue = undefined) {
 
     node = node[name];
 
-    if (node === undefined) break;
+    if (typeof node !== 'object') break;
   }
 
   return node === undefined ? defaultValue : node;
