@@ -88,6 +88,11 @@ describe('utils/transform', () => {
   });
 
   describe('processParams', () => {
+    it('should accept an empty object', () => {
+      expect(transform.processParams(null, { a: { default: 2 } }))
+        .toEqual({ a: 2 });
+    });
+
     it('should set default values', () => {
       expect(transform.processParams({}, { a: { default: 2 } }))
         .toEqual({ a: 2 });

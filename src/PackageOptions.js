@@ -147,7 +147,7 @@ class PackageOptions {
     delete json.__filename;
 
     if (section) {
-      json = getNode(json, section);
+      json = getNode(json, section, {});
     }
 
     return this.load(json);

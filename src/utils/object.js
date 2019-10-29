@@ -135,6 +135,8 @@ function setNode(object, path, value) {
     return;
   }
 
+  object = object && typeof object === 'object' ? object : {};
+
   const keys = path.split('.');
   let node = object;
   for (let i = 0; i < keys.length - 1; i++) {

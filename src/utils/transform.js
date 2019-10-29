@@ -34,6 +34,8 @@ const TRANSFORMS_MAP = TRANSFORMS.reduce((result, name) => {
 }, {});
 
 function processParams(object, params) {
+  object = object || {};
+
   Object.entries(params).forEach(([name, opts]) => {
     if (!name || !name.split) {
       return;
@@ -52,7 +54,7 @@ function processParams(object, params) {
       value = opts.default;
     }
 
-    setNode(object, name, value);
+    object = setNode(object, name, value);
 
     if (opts.alias && typeof object[opts.alias] !== 'object') {
       delete object[opts.alias];

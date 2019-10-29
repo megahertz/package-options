@@ -96,13 +96,19 @@ describe('utils/object', () => {
     });
   });
 
-  it('setNode', () => {
-    const src = { a: { b: 'original' } };
+  describe('setNode', () => {
+    it('should set node of a normal object', () => {
+      const src = { a: { b: 'original' } };
 
-    object.setNode(src, 'a.b', 'modified');
-    object.setNode(src, 'c.d', 1);
+      object.setNode(src, 'a.b', 'modified');
+      object.setNode(src, 'c.d', 1);
 
-    expect(src.a.b).toBe('modified');
-    expect(src.c.d).toBe(1);
+      expect(src.a.b).toBe('modified');
+      expect(src.c.d).toBe(1);
+    });
+
+    it('should create a new object if an empty object passed', () => {
+      expect(object.setNode(null, 'a', 1)).toEqual({ a: 1 });
+    });
   });
 });
