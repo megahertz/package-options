@@ -119,7 +119,11 @@ function transformKeyNested(key, value) {
 }
 
 function transformKeyToCamelCase(key, value) {
-  return [snakeCaseToCamel(key), value];
+  if (key.length > 1) {
+    return [snakeCaseToCamel(key), value];
+  }
+
+  return [key, value];
 }
 
 function transformKeyToLowerCase(key, value) {

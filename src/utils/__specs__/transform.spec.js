@@ -66,9 +66,10 @@ describe('utils/transform', () => {
     });
   });
 
-  it('transformKeyCase', () => {
+  it('transformKeyToCamelCase', () => {
     expect(transform.transformKeyToCamelCase('a_val', 1)).toEqual(['aVal', 1]);
     expect(transform.transformKeyToCamelCase('_a_val', 1)).toEqual(['aVal', 1]);
+    expect(transform.transformKeyToCamelCase('A', 1)).toEqual(['A', 1]);
   });
 
   it('transformKeyNegating', () => {
