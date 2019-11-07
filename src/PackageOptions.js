@@ -25,6 +25,7 @@ class PackageOptions {
       name: undefined,
       params: {},
       projectPath: findProjectRoot(),
+      version: undefined,
     }, selfOptions);
 
     const proxy = new Proxy(this, {
@@ -110,7 +111,14 @@ class PackageOptions {
       valuePrimitives: this.__selfOptions.inferTypes,
     });
 
-    return this.load(cmdOptions);
+    this.load(cmdOptions);
+
+    if (this.__data.version === true && this.__selfOptions.version) {
+      console.info(this.__selfOptions.version);
+      process.exit(0);
+    }
+
+    return this;
   }
 
   loadDefaults(packagePrefix = this.__selfOptions.name) {

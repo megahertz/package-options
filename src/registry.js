@@ -20,10 +20,13 @@ function getInstance(packageFilePath) {
   }
 
   const packageJson = readProjectFile('package.json', packageFilePath);
-  const name = packageJson.name;
+  const { name, version } = packageJson;
 
   if (name) {
-    registry[name] = registry[name] || new PackageOptions({}, { name });
+    registry[name] = registry[name] || new PackageOptions({}, {
+      name,
+      version,
+    });
     return registry[name];
   }
 
