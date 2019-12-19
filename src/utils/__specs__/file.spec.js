@@ -9,7 +9,7 @@ describe('utils/file', () => {
     const humilePath = path.join(process.cwd(), 'node_modules/humile');
     const humileColorPath = path.join(
       humilePath,
-      'src/reporters/tools/color.js'
+      'src/reporters/utils/color.js'
     );
 
     it('should load json', () => {
