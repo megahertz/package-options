@@ -13,7 +13,11 @@ const {
   getNode,
   setNode,
 } = require('./utils/object');
-const { processParams, transform } = require('./utils/transform');
+const {
+  camelCaseToSnake,
+  processParams,
+  transform,
+} = require('./utils/transform');
 
 class PackageOptions {
   constructor(data = {}, selfOptions = {}) {
@@ -218,14 +222,18 @@ class PackageOptions {
     const array = Object.entries(this.__selfOptions.params)
       .filter(([name, options]) => options.type === 'boolean')
       .reduce((fields, [name, options]) => {
-        fields.push(name, 'no' + name, 'no-' + name);
+        const snakeName = camelCaseToSnake(name);
+        fields.add(name);
+        fields.add(snakeName);
+        fields.add('no' + name[0].toUpperCase() + name.substr(1));
+        fields.add('no-' + snakeName);
 
         if (options.alias) {
-          fields.push(options.alias);
+          fields.add(options.alias);
         }
 
         return fields;
-      }, []);
+      }, new Set());
 
     return new Set(array);
   }

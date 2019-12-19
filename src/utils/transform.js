@@ -3,6 +3,7 @@
 const { deepMap, getNode, setNode } = require('./object');
 
 module.exports = {
+  camelCaseToSnake,
   processParams,
   transform,
   transformKeyNegating,
@@ -32,6 +33,10 @@ const TRANSFORMS_MAP = TRANSFORMS.reduce((result, name) => {
   result[name] = module.exports[transformer];
   return result;
 }, {});
+
+function camelCaseToSnake(src) {
+  return src.replace(/([A-Z])/g, '-$1').toLowerCase();
+}
 
 function processParams(object, params) {
   object = object || {};

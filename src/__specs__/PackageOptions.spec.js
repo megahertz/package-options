@@ -60,10 +60,10 @@ describe('PackageOptions', () => {
     it('when there are boolean fields', () => {
       const options = new PackageOptions();
       options.param('value1', { alias: 'a' })
-        .boolean(['value1', 'value2', 'c']);
+        .boolean(['value1', 'secondValue', 'c']);
 
       options.loadCmd(
-        '-a arg1 --no-value2 arg2 -c arg3 -d arg4'
+        '-a arg1 --no-second-value arg2 -c arg3 -d arg4'
       );
 
       expect(options.toJSON()).toEqual({
@@ -71,7 +71,7 @@ describe('PackageOptions', () => {
         c: true,
         d: 'arg4',
         value1: true,
-        value2: false,
+        secondValue: false,
       });
     });
   });
