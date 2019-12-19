@@ -69,6 +69,10 @@ class PackageOptions {
     );
   }
 
+  class() {
+    return PackageOptions;
+  }
+
   config(values) {
     Object.assign(this.__selfOptions, values);
     return this.__selfOptions;

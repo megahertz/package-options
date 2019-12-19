@@ -24,6 +24,7 @@ declare namespace PackageOptions {
 
     new(data?: object, selfOptions?: Partial<Config>): this;
     boolean(parameters: string[] | string): this;
+    class(): new(data?: object, selfOptions?: Partial<Config>) => this;
     clone(): this;
     config(values?: Partial<Config>): Config;
     get(option: string, defaultValue?: any): any;
