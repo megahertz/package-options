@@ -93,12 +93,12 @@ class PackageOptions {
       process.exit(0);
     }
 
-    return this;
+    return this.default;
   }
 
   load(data) {
     deepMerge(this.__data, processParams(data, this.__selfOptions.params));
-    return this;
+    return this.default;
   }
 
   loadCmd(args = process.argv.slice(2)) {
@@ -118,7 +118,7 @@ class PackageOptions {
       process.exit(0);
     }
 
-    return this;
+    return this.default;
   }
 
   loadDefaults(packagePrefix = this.__selfOptions.name) {
@@ -167,18 +167,18 @@ class PackageOptions {
       ...options,
     };
 
-    return this;
+    return this.default;
   }
 
   reset() {
     this.__data = { _: [] };
     this.__selfOptions.initialized = true;
-    return this;
+    return this.default;
   }
 
   set(option, value) {
     setNode(this.__data, option, value);
-    return this;
+    return this.default;
   }
 
   toJSON() {
