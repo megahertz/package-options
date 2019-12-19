@@ -1,6 +1,6 @@
 {
   "name": "package-options",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "The single point to load options for your node package",
   "main": "src/index.js",
   "scripts": {
