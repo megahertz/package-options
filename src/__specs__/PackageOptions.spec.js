@@ -35,24 +35,44 @@ describe('PackageOptions', () => {
     expect(options.a).toEqual({ b: { c1: 1, c2: 2 } });
   });
 
-  it('should allow to load options from a command line', () => {
-    const options = new PackageOptions(
-      { a: 1 },
-      { params: { 'b.val': { alias: 'b' } } }
-    );
+  describe('should allow to load options from a command line', () => {
+    it('when complex aliases', () => {
+      const options = new PackageOptions(
+        { a: 1 },
+        { params: { 'b.val': { alias: 'b' } } }
+      );
 
-    options.loadCmd(
-      '-b 2 -c 1 -c 2 --value1 1 --value2=2 argv --d.d1 1 --d.d2 2'
-    );
+      options.loadCmd(
+        '-b 2 -c 1 -c 2 --value1 1 --value2=2 argv --d.d1 1 --d.d2 2'
+      );
 
-    expect(options.toJSON()).toEqual({
-      _: ['argv'],
-      a: 1,
-      b: { val: 2 },
-      c: [1, 2],
-      d: { d1: 1, d2: 2 },
-      value1: 1,
-      value2: 2,
+      expect(options.toJSON()).toEqual({
+        _: ['argv'],
+        a: 1,
+        b: { val: 2 },
+        c: [1, 2],
+        d: { d1: 1, d2: 2 },
+        value1: 1,
+        value2: 2,
+      });
+    });
+
+    it('when there are boolean fields', () => {
+      const options = new PackageOptions();
+      options.param('value1', { alias: 'a' })
+        .boolean(['value1', 'value2', 'c']);
+
+      options.loadCmd(
+        '-a arg1 --no-value2 arg2 -c arg3 -d arg4'
+      );
+
+      expect(options.toJSON()).toEqual({
+        _: ['arg1', 'arg2', 'arg3'],
+        c: true,
+        d: 'arg4',
+        value1: true,
+        value2: false,
+      });
     });
   });
 

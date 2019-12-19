@@ -9,13 +9,20 @@ module.exports = {
   separateNameAndAlias,
 };
 
+const TYPE_ALIASES = {
+  bool: 'boolean',
+  int: 'number',
+  num: 'number',
+  str: 'string',
+};
+
 function extractParam(text) {
   if (!text.startsWith('-')) {
     return;
   }
 
   const [_, name1, name2, type] = text.match(
-    /(-[\w.-]+),?\s*(-[\w.-]+)?=?\s*(number|string)?/i
+    /(-[\w.-]+),?\s*(-[\w.-]+)?=?\s*(bool|boolean|int|num|number|str|string)?/i
   ) || [];
 
   if (!name1) {
@@ -25,6 +32,9 @@ function extractParam(text) {
   const param = separateNameAndAlias(name1, name2);
   if (type) {
     param.type = type.toLowerCase();
+    if (TYPE_ALIASES[param.type]) {
+      param.type = TYPE_ALIASES[param.type];
+    }
   }
 
   return param;

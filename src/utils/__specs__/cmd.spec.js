@@ -73,4 +73,12 @@ describe('utils/cmd', () => {
       a: ['1', '2'],
     });
   });
+
+  it('should parse booleans when specified', () => {
+    expect(parseCmdArgs(['-a', '-b', '2'], new Set(['a', 'b']))).toEqual({
+      _: ['2'],
+      a: true,
+      b: true,
+    });
+  });
 });

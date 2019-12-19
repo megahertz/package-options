@@ -116,7 +116,7 @@ class PackageOptions {
       args = args.trim().split(' ');
     }
 
-    const cmdOptions = transform(parseCmdArgs(args), {
+    const cmdOptions = transform(parseCmdArgs(args, this.getBooleans()), {
       keyToLowerCase: false,
       valuePrimitives: this.__selfOptions.inferTypes,
     });
@@ -205,6 +205,25 @@ class PackageOptions {
 
     this.loadDefaults();
     this.__selfOptions.initialized = true;
+  }
+
+  /**
+   * @private
+   */
+  getBooleans() {
+    const array = Object.entries(this.__selfOptions.params)
+      .filter(([name, options]) => options.type === 'boolean')
+      .reduce((fields, [name, options]) => {
+        fields.push(name, 'no' + name, 'no-' + name);
+
+        if (options.alias) {
+          fields.push(options.alias);
+        }
+
+        return fields;
+      }, []);
+
+    return new Set(array);
   }
 }
 
