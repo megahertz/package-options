@@ -28,7 +28,7 @@ class PackageOptions {
       version: undefined,
     }, selfOptions);
 
-    const proxy = new Proxy(this, {
+    this.proxy = new Proxy(this, {
       get(target, property) {
         if (property in target) {
           return target[property];
@@ -46,10 +46,20 @@ class PackageOptions {
     });
 
     this.reset = this.reset.bind(this);
-    this.default = proxy;
-    this.PackageOptions = this.constructor;
 
-    return proxy;
+    return this.proxy;
+  }
+
+  boolean(parameters) {
+    if (!Array.isArray(parameters)) {
+      parameters = [parameters];
+    }
+
+    parameters.forEach((paramName) => {
+      this.param(paramName, { type: 'boolean' });
+    });
+
+    return this.proxy;
   }
 
   clone() {
@@ -93,12 +103,12 @@ class PackageOptions {
       process.exit(0);
     }
 
-    return this.default;
+    return this.proxy;
   }
 
   load(data) {
     deepMerge(this.__data, processParams(data, this.__selfOptions.params));
-    return this.default;
+    return this.proxy;
   }
 
   loadCmd(args = process.argv.slice(2)) {
@@ -118,7 +128,7 @@ class PackageOptions {
       process.exit(0);
     }
 
-    return this.default;
+    return this.proxy;
   }
 
   loadDefaults(packagePrefix = this.__selfOptions.name) {
@@ -167,18 +177,18 @@ class PackageOptions {
       ...options,
     };
 
-    return this.default;
+    return this.proxy;
   }
 
   reset() {
     this.__data = { _: [] };
     this.__selfOptions.initialized = true;
-    return this.default;
+    return this.proxy;
   }
 
   set(option, value) {
     setNode(this.__data, option, value);
-    return this.default;
+    return this.proxy;
   }
 
   toJSON() {

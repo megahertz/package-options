@@ -140,6 +140,12 @@ options.param('log.level', { // can be applied to a nested parameter
 
 All keys of the second argument are optional.
 
+Here is an shortcut to define parameters with boolean type:
+
+```js
+options.boolean(['showLine', 'colors']);
+```
+
 ### Displaying help text
 
 The package has a helper which simplifies help printing in CLI. It can:

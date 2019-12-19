@@ -13,7 +13,5 @@ describe('index', () => {
     expect(options.a).toBe(1);
     expect(options.b).toBe(2);
     expect(options.c).toBe(3);
-
-    expect(options.PackageOptions).toBeDefined();
   });
 });

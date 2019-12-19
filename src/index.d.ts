@@ -12,17 +12,18 @@ declare namespace PackageOptions {
     paddingTop: number;
   }
 
-  export interface Config {
+  interface Config {
     name: string;
     params: object;
     inferTypes: boolean;
     projectPath: string;
   }
 
-  export interface PackageOptions<T = object> {
+  interface PackageOptions<T = object> {
     [param: string]: any;
 
     new(data?: object, selfOptions?: Partial<Config>): this;
+    boolean(parameters: string[] | string): this;
     clone(): this;
     config(values?: Partial<Config>): Config;
     get(option: string, defaultValue?: any): any;
@@ -39,17 +40,11 @@ declare namespace PackageOptions {
     reset(): this;
     set(name: string, value: any): this;
     toJSON(): T;
-
-    default: PackageOptions;
-    PackageOptions: new(
-      data?: object,
-      selfOptions?: Partial<Config>,
-    ) => PackageOptions;
   }
 }
 
 declare const PackageOptions: PackageOptions.PackageOptions & {
-  PackageOptions: PackageOptions.PackageOptions;
+  default: PackageOptions.PackageOptions;
 };
 
 export = PackageOptions;

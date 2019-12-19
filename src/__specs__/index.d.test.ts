@@ -1,9 +1,9 @@
-import options, { PackageOptions } from '../index';
+import options, { HelpOptions, PackageOptions } from '../index';
 
 class Options {
   a: string = '';
 
-  constructor(options: typeof PackageOptions) {
+  constructor(options: PackageOptions) {
     Object.assign(this, options.toJSON());
   }
 }
@@ -13,4 +13,4 @@ options.a = 2;
 
 new Options(options);
 
-const helpOptions: options.HelpOptions;
+let helpOptions: HelpOptions;
