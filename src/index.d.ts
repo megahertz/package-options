@@ -1,4 +1,4 @@
-declare namespace packageOptions {
+declare namespace PackageOptions {
   interface ParamOptions {
     alias: string;
     default: any;
@@ -48,8 +48,8 @@ declare namespace packageOptions {
   }
 }
 
-declare const opts: packageOptions.PackageOptions & {
-  PackageOptions: packageOptions.PackageOptions;
+declare const PackageOptions: PackageOptions.PackageOptions & {
+  PackageOptions: PackageOptions.PackageOptions;
 };
 
-export = opts;
+export = PackageOptions;
