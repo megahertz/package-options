@@ -12,8 +12,24 @@ module.exports = {
   setNode,
 };
 
+function createCircularReplacer() {
+  const seen = new WeakSet();
+
+  return (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+
+      seen.add(value);
+    }
+
+    return value;
+  };
+}
+
 function deepCopy(object) {
-  return JSON.parse(JSON.stringify(object));
+  return JSON.parse(JSON.stringify(object, createCircularReplacer()));
 }
 
 function deepMap(object, callback) {

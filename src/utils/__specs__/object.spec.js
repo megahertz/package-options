@@ -4,13 +4,25 @@ const { describe, expect, it } = require('humile');
 const object                   = require('../object');
 
 describe('utils/object', () => {
-  it('deepCopy', () => {
-    const src = { a: { b: 'original' } };
-    const dest = object.deepCopy(src);
-    dest.a.b = 'modified';
+  describe('deepCopy', () => {
+    it('should produce deep copy', () => {
+      const src = { a: { b: 'original' } };
+      const dest = object.deepCopy(src);
+      dest.a.b = 'modified';
 
-    expect(src.a.b).toBe('original');
-    expect(dest.a.b).toBe('modified');
+      expect(src.a.b).toBe('original');
+      expect(dest.a.b).toBe('modified');
+    });
+
+    it('should remove cycle references', () => {
+      const src = { a: { b: 1 } };
+      src.c = src;
+      const dest = object.deepCopy(src);
+
+      expect(dest).toEqual({
+        a: { b: 1 },
+      });
+    });
   });
 
   describe('deepMap', () => {
