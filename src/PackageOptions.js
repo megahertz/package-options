@@ -49,6 +49,7 @@ class PackageOptions {
       },
     });
 
+    this.default = this.proxy;
     this.reset = this.reset.bind(this);
 
     return this.proxy;
