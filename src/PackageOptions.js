@@ -100,7 +100,11 @@ class PackageOptions {
 
     this.__selfOptions.help = text;
 
-    params = transform(params, { keyToLowerCase: false });
+    params = transform(params, {
+      keyToLowerCase: false,
+      keyNested: false,
+    });
+
     Object.entries(params)
       .forEach(([param, opts]) => this.param(param, opts));
 

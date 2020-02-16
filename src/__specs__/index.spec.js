@@ -14,4 +14,21 @@ describe('index', () => {
     expect(options.b).toBe(2);
     expect(options.c).toBe(3);
   });
+
+  it('should parse help nested keys', () => {
+    options
+      .reset()
+      .param('debug.showFileOperations', { default: false })
+      .help(`
+        -a, --debug.show-api-calls Display API calls
+        -q, --debug.show-queries Display API calls
+      `)
+      .loadCmd('-aq');
+
+    expect(options.debug).toEqual({
+      showApiCalls: true,
+      showFileOperations: false,
+      showQueries: true,
+    });
+  });
 });
