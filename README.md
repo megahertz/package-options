@@ -1,5 +1,5 @@
 # package-options
-[![Tests](https://github.com/megahertz/package-options/actions/workflows/tests.yml/badge.svg)](https://github.com/megahertz/package-options/actions/workflows/tests.yml)
+[![test](https://github.com/megahertz/package-options/actions/workflows/test.yml/badge.svg)](https://github.com/megahertz/package-options/actions/workflows/test.yml)
 [![NPM version](https://badge.fury.io/js/package-options.svg)](https://badge.fury.io/js/package-options)
 
 The single point to load config for your node package
