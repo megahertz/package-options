@@ -22,15 +22,14 @@ const {
 class PackageOptions {
   constructor(data = {}, selfOptions = {}) {
     this.__data = { _: [], ...data };
-    this.__selfOptions = Object.assign({
-      help: undefined,
+    this.__selfOptions = { help: undefined,
       inferTypes: true,
       initialized: false,
       name: undefined,
       params: {},
       projectPath: findProjectRoot(),
       version: undefined,
-    }, selfOptions);
+      ...selfOptions };
 
     this.proxy = new Proxy(this, {
       get(target, property) {

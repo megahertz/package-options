@@ -54,7 +54,7 @@ function formatHelp(lines, options) {
 
 function normalizeIndent(lines) {
   const minIndent = lines.reduce((min, line) => Math.min(min, line.indent), 80);
-  lines.forEach(line => line.indent -= minIndent);
+  lines.forEach((line) => line.indent -= minIndent);
   return lines;
 }
 
@@ -82,7 +82,7 @@ function parseText(text) {
   const lines = text.split('\n')
     .map((line) => {
       let indent = 0;
-      line.replace(/^\s+/, m => indent += m.length);
+      line.replace(/^\s+/, (m) => indent += m.length);
       return {
         text: line.trim(),
         indent,
@@ -105,7 +105,6 @@ function separateNameAndAlias(rawName1, rawName2) {
   const name2 = rawName2 && rawName2.replace(/^-*/, '');
   const dashes1 = rawName1 && rawName1.search(/[^-]/);
   const dashes2 = rawName1 && rawName1.search(/[^-]/);
-
 
   if (!name2) {
     return { name: name1 };

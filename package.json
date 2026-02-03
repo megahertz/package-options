@@ -6,7 +6,7 @@
   "scripts": {
     "test": "humile",
     "test:full": "npm test && npm run lint && tsc --noEmit",
-    "lint": "eslint src/**/*.js && tsc --noEmit",
+    "lint": "eslint \"src/**/*.js\" && tsc --noEmit",
     "postversion": "git push && git push --tags",
     "prepack": "npm run test:full",
     "preversion": "npm run test:full"
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "eslint": "^6.0.1",
-    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.18.0",
     "humile": "^0.2.9",
     "typescript": "^3.7.3"

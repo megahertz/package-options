@@ -94,7 +94,7 @@ function filterByKeyPrefix(object, prefix) {
   prefix = prefix.toLowerCase();
 
   return Object.keys(object)
-    .filter(key => key.toLowerCase().startsWith(prefix))
+    .filter((key) => key.toLowerCase().startsWith(prefix))
     .reduce((res, key) => {
       let newKey = key.substr(prefix.length);
       if (newKey[0] === '_' || newKey[0] === '-') {
@@ -111,7 +111,7 @@ function filterByKeys(object, keys) {
     return object;
   }
 
-  keys = keys.map(k => k.toLowerCase());
+  keys = keys.map((k) => k.toLowerCase());
 
   return Object.entries(object).reduce((res, [key, value]) => {
     if (!keys.includes(key.toLowerCase())) {

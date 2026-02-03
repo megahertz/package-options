@@ -70,7 +70,7 @@ function processParams(object, params) {
 }
 
 function snakeCaseToCamel(src) {
-  const camel = src.replace(/[-_]([a-z])/gi, m => m[1].toUpperCase());
+  const camel = src.replace(/[-_]([a-z])/gi, (m) => m[1].toUpperCase());
   return camel[0].toLowerCase() + camel.substr(1);
 }
 
@@ -100,8 +100,8 @@ function toType(value, type, name) {
 
 function transform(object, transforms = {}) {
   return TRANSFORMS
-    .filter(t => transforms[t] !== false)
-    .map(t => TRANSFORMS_MAP[t])
+    .filter((t) => transforms[t] !== false)
+    .map((t) => TRANSFORMS_MAP[t])
     .reduce((obj, t) => deepMap(obj, t), object);
 }
 

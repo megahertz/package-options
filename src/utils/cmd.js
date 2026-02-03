@@ -20,14 +20,14 @@ function parseCmdArgs(argv = process.argv.slice(2), booleans = new Set([])) {
       // -kv
       if (arg[1] && arg[1] !== '-' && arg.length > 2 && arg[2] !== '=') {
         const keys = key.split('');
-        keys.forEach(k => flags[k] = flags[k] || true);
+        keys.forEach((k) => flags[k] = flags[k] || true);
         key = keys[keys.length - 1];
         return flags;
       }
 
       // --key=value
       if (key.indexOf('=') > 0) {
-        const [k, v] = key.split('=', 2).map(s => s.trim());
+        const [k, v] = key.split('=', 2).map((s) => s.trim());
         key = null;
         return { ...flags, [k]: v };
       }

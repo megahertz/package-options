@@ -100,7 +100,6 @@ describe('utils/object', () => {
     });
   });
 
-
   describe('getNode', () => {
     it('should return a nested value', () => {
       const src = { a: { b: 'original' } };
