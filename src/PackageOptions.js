@@ -151,8 +151,11 @@ class PackageOptions {
 
     return this
       .loadFile('package.json', packagePrefix)
-      .loadFile(`${packagePrefix}.config.json`)
+      .loadFile(`${packagePrefix}.config.ts`)
+      .loadFile(`${packagePrefix}.config.mjs`)
+      .loadFile(`${packagePrefix}.config.cjs`)
       .loadFile(`${packagePrefix}.config.js`)
+      .loadFile(`${packagePrefix}.config.json`)
       .loadEnv(packagePrefix.replace(/-/g, '_'))
       .loadCmd();
   }

@@ -1,7 +1,6 @@
 # package-options
-[![Build Status](https://travis-ci.org/megahertz/package-options.svg?branch=master)](https://travis-ci.org/megahertz/package-options)
+[![Tests](https://github.com/megahertz/package-options/actions/workflows/tests.yml/badge.svg)](https://github.com/megahertz/package-options/actions/workflows/tests.yml)
 [![NPM version](https://badge.fury.io/js/package-options.svg)](https://badge.fury.io/js/package-options)
-[![Dependencies status](https://david-dm.org/megahertz/package-options/status.svg)](https://david-dm.org/megahertz/package-options)
 
 The single point to load config for your node package
 
@@ -10,8 +9,11 @@ It reads:
 - command line arguments
 - environment variables
 - `package.json`
-- `${yourPackage}.config.json`
+- `${yourPackage}.config.ts`
+- `${yourPackage}.config.mjs`
+- `${yourPackage}.config.cjs`
 - `${yourPackage}.config.js`
+- `${yourPackage}.config.json`
 - other custom sources
 
 Features:
